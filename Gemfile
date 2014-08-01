@@ -13,6 +13,10 @@ group :development do
   gem 'minitest', '~>5.4'
 end
 
+group :test do
+  gem "minitest-capybara", '~>0.7'
+end
+
 
 group :production do
   gem 'dm-postgres-adapter', '~>1.2'
