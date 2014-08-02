@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gem 'sinatra', '~>1.4'
 gem 'datamapper', '~>1.2'
+gem 'faker', '~>1.4'
 
 group :development do
   gem 'sqlite3', '~>1.3'

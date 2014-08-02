@@ -46,6 +46,7 @@ Then you should be good to:
    this repository.
 1. `bundle install` - Install all the ruby dependencies
 1. `cp .env.example .env` - Set up your local environment
+1. `rake seed` - Loads fake data into the local database
 1. `rerun -c bundle exec rackup` - Starts the web server
 1. `rerun -xc bundle exec ruby test/all.rb` - Runs the tests over and over
 
