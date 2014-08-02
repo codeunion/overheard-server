@@ -1,3 +1,19 @@
-<% @overheards.each do |overheard| %>
-  <p><%= overheard.body %></p>
-<% end %>
+<!DOCTYPE html>
+<head>
+  <title>Overheard - Quotes Sans Context</title>
+</head>
+
+<body>
+<header>
+  <h1>Overheard - Quotes Sans Context</h1>
+  <p>Silly Sayings Said Serendipitously</p>
+</header>
+
+<main>
+  <% @overheards.each do |overheard| %>
+    <p><%= overheard.body %></p>
+  <% end %>
+</main>
+
+</body>
+</html>
