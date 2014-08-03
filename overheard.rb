@@ -18,12 +18,13 @@ get '/' do
 end
 
 get '/overheards/new' do
+  @overheard = Overheard.new
   erb :new_overheard
 end
 
 post '/overheards' do
-  overheard = Overheard.create(params["overheard"])
-  if overheard.saved?
+  @overheard = Overheard.create(params["overheard"])
+  if @overheard.saved?
     redirect "/"
   else
     erb :new_overheard

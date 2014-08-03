@@ -1,4 +1,7 @@
 <form method="POST" action="/overheards">
-  <label>Body <textarea name="overheard[body]"></textarea></label>
+  <label>Body <textarea name="overheard[body]"><%= @overheard.body %></textarea></label>
+  <% @overheard.errors["body"].each do |error| %>
+    <p class="error"><%= error %></p>
+  <% end %>
   <button>Create Overheard</button>
 </form>

@@ -21,7 +21,7 @@ class TestCreateOverheards < FeatureTest
     assert_equal "/overheards", page.current_path
     # We want to stay on the /overheards page and re-show the form.
 
-    assert_content "Body cannot be empty"
+    assert_content "Body must not be blank"
     # Prove we see an error message
   end
 end
