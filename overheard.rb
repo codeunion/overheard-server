@@ -16,3 +16,7 @@ get '/' do
   @overheards = Overheard.all
   erb :home
 end
+
+get '/overheards/new' do
+  erb :new_overheard
+end
