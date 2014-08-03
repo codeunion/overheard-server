@@ -1,22 +1,3 @@
-<!DOCTYPE html>
-<head>
-  <title>Overheard - Quotes Sans Context</title>
-</head>
-
-<body>
-<header>
-  <h1>Overheard - Quotes Sans Context</h1>
-  <p>Silly Sayings Said Serendipitously</p>
-  <nav>
-    <a href="/overheards/new">Add Overheard</a>
-  </nav>
-</header>
-
-<main>
-  <% @overheards.each do |overheard| %>
-    <p><%= overheard.body %></p>
-  <% end %>
-</main>
-
-</body>
-</html>
+<% @overheards.each do |overheard| %>
+  <p><%= overheard.body %></p>
+<% end %>
