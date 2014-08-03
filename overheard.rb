@@ -5,7 +5,7 @@ class Overheard
   include DataMapper::Resource
 
   property :id, Serial
-  property :body, Text
+  property :body, Text, { :required => true }
   property :created_at, DateTime
 end
 
@@ -23,5 +23,9 @@ end
 
 post '/overheards' do
   overheard = Overheard.create(params["overheard"])
-  redirect "/"
+  if overheard.saved?
+    redirect "/"
+  else
+    erb :new_overheard
+  end
 end
