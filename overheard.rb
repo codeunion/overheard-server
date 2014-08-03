@@ -20,3 +20,8 @@ end
 get '/overheards/new' do
   erb :new_overheard
 end
+
+post '/overheards' do
+  overheard = Overheard.create(params["overheard"])
+  redirect "/"
+end
