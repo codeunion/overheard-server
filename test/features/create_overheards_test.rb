@@ -1,14 +1,5 @@
-require 'minitest-capybara'
-require 'faker'
-require 'overheard'
-
-Capybara.app = Sinatra::Application
-
-class TestCreateOverheards < Minitest::Test
-
-  include Capybara::DSL
-  include Capybara::Assertions
-
+require_relative 'helper'
+class TestCreateOverheards < FeatureTest
   def test_creating_a_valid_overheard
     random_fake_quote = Faker::Lorem.sentence
     visit "/"
