@@ -23,10 +23,20 @@ get '/overheards/new' do
 end
 
 post '/overheards' do
-  @overheard = Overheard.create(params["overheard"])
-  if @overheard.saved?
-    redirect "/"
-  else
-    erb :new_overheard
+
+  if request.form_data? && request.accept?("text/html")
+    @overheard = Overheard.create(params["overheard"])
+    if @overheard.saved?
+      redirect "/"
+    else
+      erb :new_overheard
+    end
+  elsif !request.form_data? && request.accept?("application/json")
+    request.body.rewind
+    body_json = JSON.parse(request.body.read)
+    overheard = Overheard.create(body_json["overheard"])
+    status 200
+    content_type "application/json"
+    JSON.dump({ "overheard" => overheard.attributes })
   end
 end

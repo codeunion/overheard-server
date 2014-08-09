@@ -27,19 +27,21 @@ class TestCreateOverheards < FeatureTest
 
   def test_creating_a_valid_overheard_with_json
     random_fake_quote = Faker::Lorem.sentence
-    create_overheard_request_body = { :overheard => { :body => random_fake_quote } }.to_json
+    create_overheard_request = { :overheard => { :body => random_fake_quote } }
+    create_overheard_request_body = JSON.dump(create_overheard_request)
 
-    post("/overheards", create_overheard_request_body, { :content_type => "application/json",
-                                          :accept => "application/json" })
+    post("/overheards", create_overheard_request_body, { "CONTENT_TYPE" => "application/json",
+                                                         "HTTP_ACCEPT" => "application/json" })
 
     overheard_in_our_database = Overheard.first({ :body => random_fake_quote })
     refute_nil overheard_in_our_database, "We weren't able to find the overheard in our database"
 
 
     assert last_response.ok?, "Response did not return 200"
+    assert_equal "application/json",  last_response.content_type
 
     response_json = JSON.parse(last_response.body)
     assert response_json.has_key?("overheard"), "Response does not include an overheard"
-    assert response_body["overheard"]["body"] == random_fake_quote, "Overheard's body did not match the quote we sent"
+    assert response_json["overheard"]["body"] == random_fake_quote, "Overheard's body did not match the quote we sent"
   end
 end
