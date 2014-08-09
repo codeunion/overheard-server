@@ -35,9 +35,15 @@ post '/overheards' do
   elsif !request.form_data? && request.accept?("application/json")
     request.body.rewind
     body_json = JSON.parse(request.body.read)
-    overheard = Overheard.create(body_json["overheard"])
-    status 200
+    overheard = Overheard.create({ "body" => body_json["overheard"]["body"] })
     content_type "application/json"
-    JSON.dump({ "overheard" => overheard.attributes })
+    response_json = { "overheard" => overheard.attributes }
+    if overheard.saved?
+      status 200
+    else
+      status 400
+      response_json["overheard"]["errors"] = overheard.errors.to_h
+    end
+    JSON.dump(response_json)
   end
 end
