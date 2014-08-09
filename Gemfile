@@ -16,6 +16,7 @@ end
 
 group :test do
   gem "minitest-capybara", '~>0.7'
+  gem "rack-test", "~>0.6"
 end
 
 
