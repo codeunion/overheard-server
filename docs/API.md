@@ -10,14 +10,30 @@ Body: `{ "overheard": { "body": "Your fancy quote" } }`
 From your terminal:
 
 ```bash
-curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X
-POST -d "{'overheard':{'body':'y hello'}}" http://localhost:9292/overheards
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X \
+POST -d '{"overheard":{"body":"y hello"}}' http://localhost:9292/overheards
 ```
 
 Approximate response:
 
 ```json
-{ "overheard": { "id": 1, "body": "y hello" } }
+{ "overheard": { "id": 1, "body": "y hello", "created_at": "2014-08-09T16:30:16-07:00" } }
+```
+
+If you do not include a valid overheard; the server will respond with a status
+code of 400 as well as provide a json representation of an overheard with an
+additional errors hash:
+
+```bash
+curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X \
+POST -d '{"overheard":{ "bardy": "lol that's not the right key!" }}' \
+http://localhost:9292/overheards
+```
+
+Approximate response:
+
+```json
+{ "overheard": { "errors": { "body": ["Body must not be blank"] }, "id": null, "body": null, "created_at": null } }
 ```
 
 #### Ruby
