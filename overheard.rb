@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'json'
 require 'config/environment'
 
 class Overheard
@@ -12,6 +13,18 @@ end
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
+helpers do
+  def request_data
+    return @request_data if @request_data
+    if request.form_data?
+      @request_data = params
+    elsif request.content_type == "application/json"
+      request.body.rewind
+      @request_data = JSON.parse(request.body.read)
+    end
+  end
+end
+
 get '/' do
   @overheards = Overheard.all
   erb :home
@@ -23,10 +36,19 @@ get '/overheards/new' do
 end
 
 post '/overheards' do
-  @overheard = Overheard.create(params["overheard"])
-  if @overheard.saved?
-    redirect "/"
-  else
-    erb :new_overheard
+  @overheard = Overheard.create({ "body" => request_data["overheard"]["body"] })
+  status @overheard.saved? ? 200 : 400
+
+  if request.accept?("text/html")
+    if @overheard.saved?
+      redirect "/"
+    else
+      erb :new_overheard
+    end
+  elsif request.accept?("application/json")
+    content_type "application/json"
+    response_json = { "overheard" => @overheard.attributes }
+    response_json["overheard"]["errors"] = @overheard.errors.to_h
+    JSON.dump(response_json)
   end
 end
