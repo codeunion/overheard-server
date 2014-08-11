@@ -28,13 +28,21 @@ helpers do
       @request_data = JSON.parse(request.body.read)
     end
   end
+
+  CONTENT_TYPES = {
+    :html => "text/html",
+    :json => "application/json"
+  }
+  def requesting? content_type
+    request.accept?(CONTENT_TYPES[content_type])
+  end
 end
 
 get '/' do
   @overheards = Overheard.all(:order => [:created_at.asc])
-  if request.accept?("text/html")
+  if requesting?(:html)
     erb :home
-  elsif request.accept?("application/json")
+  elsif requesting?(:json)
     render_json({ :overheards => @overheards })
   end
 end
@@ -48,13 +56,13 @@ post '/overheards' do
   @overheard = Overheard.create({ "body" => request_data["overheard"]["body"] })
   status @overheard.saved? ? 200 : 400
 
-  if request.accept?("text/html")
+  if requesting?(:html)
     if @overheard.saved?
       redirect "/"
     else
       erb :new_overheard
     end
-  elsif request.accept?("application/json")
+  elsif requesting?(:json)
     response_json = { "overheard" => @overheard.attributes }
     response_json["overheard"]["errors"] = @overheard.errors.to_h
     render_json(response_json)
