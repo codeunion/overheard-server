@@ -27,7 +27,12 @@ end
 
 get '/' do
   @overheards = Overheard.all
-  erb :home
+  if request.accept?("text/html")
+    erb :home
+  elsif request.accept?("application/json")
+    content_type "application/json"
+    JSON.dump({ :overheards => @overheards })
+  end
 end
 
 get '/overheards/new' do

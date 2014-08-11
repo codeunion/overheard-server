@@ -14,10 +14,10 @@ class TestListOverheards < FeatureTest
     random_fake_quote = Faker::Lorem.sentence
     fake_overheard = Overheard.create({ :body => random_fake_quote })
 
-    get("/", { "HTTP_ACCEPT" => "application/json" })
+    get("/", "", { "HTTP_ACCEPT" => "application/json" })
 
     assert last_response.ok?
-    assert last_response.content_type == "application/json"
+    assert_equal "application/json", last_response.content_type
 
     response_json = JSON.parse(last_response.body)
     assert response_json["overheards"][0]["body"] == random_fake_quote, "The most recently created overheard isn't the one we just created!"
