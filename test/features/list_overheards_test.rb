@@ -2,6 +2,7 @@ require_relative 'helper'
 
 class TestListOverheards < FeatureTest
   def test_visiting_the_home_page_reveals_overheards
+
     Overheard.create({ :body => "Well, when you put it that way I am a horrible person..."})
 
     visit "/"
@@ -11,8 +12,11 @@ class TestListOverheards < FeatureTest
 
   def test_listing_overheards_as_json
 
-    random_fake_quote = Faker::Lorem.sentence
-    fake_overheard = Overheard.create({ :body => random_fake_quote })
+    first_fake_quote = Faker::Lorem.sentence
+    first_fake_overheard = Overheard.create({ :body => first_fake_quote })
+
+    second_fake_quote = Faker::Lorem.sentence
+    second_fake_overheard = Overheard.create({ :body => second_fake_quote })
 
     get("/", "", { "HTTP_ACCEPT" => "application/json" })
 
@@ -20,6 +24,7 @@ class TestListOverheards < FeatureTest
     assert_equal "application/json", last_response.content_type
 
     response_json = JSON.parse(last_response.body)
-    assert response_json["overheards"][0]["body"] == random_fake_quote, "The most recently created overheard isn't the one we just created!"
+
+    assert_equal response_json["overheards"][0]["body"], second_fake_quote
   end
 end

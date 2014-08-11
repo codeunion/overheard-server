@@ -39,7 +39,7 @@ helpers do
 end
 
 get '/' do
-  @overheards = Overheard.all(:order => [:created_at.asc])
+  @overheards = Overheard.all(:order => [:id.desc])
   if requesting?(:html)
     erb :home
   elsif requesting?(:json)
