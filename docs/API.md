@@ -1,4 +1,23 @@
 
+## Listing Overheards
+Route: GET / or  GET /overheards
+Headers: `Accept: application/json`
+
+### Examples
+From your terminal:
+
+```bash
+curl -i -H"Accept: application/json" http://localhost:9292/
+{
+  "overheards": [
+    { "id": 1,
+      "body": "Hello",
+      "created_at": "2014-09-05T13:10:13-05:00"
+    }
+  ]
+}
+```
+
 ## Creating Overheards
 Route: POST /overheards
 Headers: `Content-Type: application/json`
