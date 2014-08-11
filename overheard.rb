@@ -14,6 +14,11 @@ DataMapper.finalize
 DataMapper.auto_upgrade!
 
 helpers do
+  def render_json(hash)
+    content_type "application/json"
+    JSON.dump(hash)
+  end
+
   def request_data
     return @request_data if @request_data
     if request.form_data?
@@ -30,8 +35,7 @@ get '/' do
   if request.accept?("text/html")
     erb :home
   elsif request.accept?("application/json")
-    content_type "application/json"
-    JSON.dump({ :overheards => @overheards })
+    render_json({ :overheards => @overheards })
   end
 end
 
@@ -51,9 +55,8 @@ post '/overheards' do
       erb :new_overheard
     end
   elsif request.accept?("application/json")
-    content_type "application/json"
     response_json = { "overheard" => @overheard.attributes }
     response_json["overheard"]["errors"] = @overheard.errors.to_h
-    JSON.dump(response_json)
+    render_json(response_json)
   end
 end
