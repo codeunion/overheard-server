@@ -31,7 +31,7 @@ helpers do
 end
 
 get '/' do
-  @overheards = Overheard.all
+  @overheards = Overheard.all(:order => [:created_at.asc])
   if request.accept?("text/html")
     erb :home
   elsif request.accept?("application/json")
