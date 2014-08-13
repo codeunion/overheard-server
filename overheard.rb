@@ -39,7 +39,11 @@ helpers do
 end
 
 get '/' do
-  @overheards = Overheard.all(:order => [:id.desc])
+  filter = { :order => [:id.desc] }
+  filter[:body.like] = "%#{params["search"]}%" if params.has_key?("search")
+
+  @overheards = Overheard.all(filter)
+
   if requesting?(:html)
     erb :home
   elsif requesting?(:json)
