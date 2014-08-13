@@ -2,6 +2,8 @@
 ## Listing Overheards
 Route: GET / or  GET /overheards
 Headers: `Accept: application/json`
+Query Variables:
+  * `search` - Restricts to only overheards which match the provided term
 
 ### Examples
 From your terminal:
