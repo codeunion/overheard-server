@@ -21,6 +21,22 @@ class TestListOverheards < FeatureTest
     refute_content "Baz"
   end
 
+  def test_searching_overheard_as_json
+    Overheard.create({ :body => "Foo"})
+    Overheard.create({ :body => "Baz"})
+
+    get("/?search=Baz", "", { "HTTP_ACCEPT" => "application/json" })
+
+    assert last_response.ok?
+    assert_equal "application/json", last_response.content_type
+
+    response_json = JSON.parse(last_response.body)
+
+    assert response_json["overheards"].all? do |overheard|
+      overheard["body"].include? "Baz"
+    end
+  end
+
   def test_listing_overheards_as_json
 
     first_fake_quote = Faker::Lorem.sentence
