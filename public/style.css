@@ -13,3 +13,31 @@ abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
 table{border-collapse:collapse;border-spacing:0}
 hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
 input,select{vertical-align:middle}
+
+/*
+ App Styles
+*/
+
+body {
+  font-family: Helvetica, sans-serif;
+  width: 20em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1, p, label, input, button {
+  margin: .5em 0;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+
+input, label, button {
+  display: block;
+  width: 20em;
+}
+
+button {
+  height: 2em;
+}
